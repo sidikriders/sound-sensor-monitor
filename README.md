@@ -6,4 +6,4 @@
 
 ### Notice
 
-- Run `npx prisma generate` if _PrismaClient_ not found
+- Run `npx prisma generate` if _PrismaClient_ not found or after changing the _schema.prisma_
