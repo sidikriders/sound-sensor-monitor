@@ -1,4 +1,4 @@
-import { Button, message, Select, Spin, Tag } from "antd";
+import { Button, message, Pagination, Select, Spin, Tag } from "antd";
 import { CaretLeftOutlined } from "@ant-design/icons";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -12,7 +12,6 @@ import { AlertResponse } from "global";
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const [sensor, setSensor] = useState("All");
   const [loading, setLoading] = useState(false);
   const [alerts, setAlerts] = useState<{
     items: AlertResponse[];
@@ -27,14 +26,16 @@ const Home: NextPage = () => {
   });
   const newAlerts = 6;
 
-  const getAlerts = async (page = 1, pageSize = 10) => {
+  const getAlerts = async () => {
     setLoading(true);
     let url = "/api/alerts";
-    if (sensor !== "All") {
+    const page = String(router.query?.page || 1);
+    const sensor = router.query?.sensorId;
+    if (!!sensor) {
       url = `/api/sensor-alerts/${sensor}`;
     }
 
-    const resp = await fetch(url);
+    const resp = await fetch(url + `?page=${page}&pageSize=${10}`);
     if (resp.ok) {
       const parsed = await resp.json();
       setAlerts(parsed);
@@ -45,9 +46,8 @@ const Home: NextPage = () => {
   };
 
   useEffect(() => {
-    setSensor(String(router.query.sensorId || "All"));
     getAlerts();
-  }, [router.query.sensorId]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [router.query.sensorId, router.query.page]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={styles.container}>
@@ -62,9 +62,9 @@ const Home: NextPage = () => {
       </Head>
       <div className={styles["sensor-selector"]}>
         <SensorSelector
-          selected={sensor}
+          selected={String(router.query.sensorId || "All")}
           onChange={(val) => {
-            if (!val) {
+            if (!val || val === "All") {
               router.replace({
                 pathname: "/",
               });
@@ -111,6 +111,18 @@ const Home: NextPage = () => {
                 );
               })}
             </div>
+            <Pagination
+              current={Number(router.query.page) || 1}
+              pageSize={Number(router.query.pageSize) || 10}
+              onChange={(page) => {
+                router.replace({
+                  pathname: "/",
+                  query: { page, sensorId: router.query.sensorId },
+                });
+              }}
+              total={alerts.total}
+              style={{ textAlign: "right", margin: 10 }}
+            />
           </div>
           <div className={styles["alert-detail"]}></div>
         </div>

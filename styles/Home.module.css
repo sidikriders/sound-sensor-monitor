@@ -25,7 +25,7 @@
 
 .alert-list-container {
   padding: 15px;
-  max-height: calc(100vh - 264px);
+  height: calc(100vh - 255px);
   overflow: auto;
 }
 
