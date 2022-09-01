@@ -52,8 +52,12 @@
 
 .menu-list li:hover,
 .menu-list li.active {
-  cursor: pointer;
   border-bottom: solid 3px var(--primary-blue);
+}
+
+
+.menu-list li:hover {
+  cursor: pointer;
   background: var(--light-blue);
 }
 
