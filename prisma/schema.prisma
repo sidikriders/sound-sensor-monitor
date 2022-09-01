@@ -17,17 +17,18 @@ model Sensor {
 }
 
 model Alert {
-  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  viewed    Boolean      @default(false)
   severity  Severity
-  sensor    Sensor      @relation(fields: [sensorId], references: [id])
+  sensor    Sensor?      @relation(fields: [sensorId], references: [id])
   sensorId  String
   timestamp DateTime
   soundUrl  String
-  reason    AlertReason @relation(fields: [reasonId], references: [id])
-  reasonId  String
-  action    AlertAction @relation(fields: [actionId], references: [id])
-  actionId  String
-  comment   String
+  reason    AlertReason? @relation(fields: [reasonId], references: [id])
+  reasonId  String?      @default("")
+  action    AlertAction? @relation(fields: [actionId], references: [id])
+  actionId  String?      @default("")
+  comment   String?      @default("")
 }
 
 model AlertReason {
