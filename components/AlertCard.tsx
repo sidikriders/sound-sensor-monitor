@@ -1,14 +1,15 @@
 import { Tag } from "antd";
+import { AlertResponse } from "global";
 import moment from "moment";
 import styles from "../styles/AlertCard.module.css";
 
-const severityColor = {
-  mild: "lightgreen",
-  moderate: "#FCA034",
-  severe: "red",
+const severityColor: any = {
+  MILD: "lightgreen",
+  MODERATE: "#FCA034",
+  SEVERE: "red",
 };
 
-const AlertCard = (props: { alert: Alert; active: boolean }) => {
+const AlertCard = (props: { alert: AlertResponse; active: boolean }) => {
   const { alert: al } = props;
 
   return (
@@ -17,18 +18,23 @@ const AlertCard = (props: { alert: Alert; active: boolean }) => {
         styles["alert-card"] + (props.active ? ` ${styles["active"]}` : "")
       }
     >
-      <div className={styles["alert-id"]}>
-        <span>ID #{al.id}</span>{" "}
-        {al.new && <div className={styles["new-dot"]} />}
-      </div>
-      <Tag className={styles["severity"]} color={severityColor[al.severity]}>
+      <Tag
+        className={styles["severity"]}
+        color={severityColor[String(al.severity)] || "black"}
+      >
         {al.severity}
       </Tag>
-      <b className={styles["reason"]}>{al.anomaly_reason}</b>
+      <div className={styles["alert-id"]}>
+        <span>ID {al.id}</span>{" "}
+        {!al.viewed && <div className={styles["new-dot"]} />}
+      </div>
+      <b className={styles["reason"]}>
+        {al.reason?.reason || "Unknown Reason"}
+      </b>
       <p className={styles["datetime"]}>
-        Detected at {moment.utc(al.datetime).format("YYYY-MM-DD HH:mm:ss")}
+        Detected at {moment.utc(al.timestamp).format("YYYY-MM-DD HH:mm:ss")}
       </p>
-      <p className={styles["sensor-name"]}>{al.name}</p>
+      <p className={styles["sensor-name"]}>{al.sensor?.name}</p>
     </div>
   );
 };

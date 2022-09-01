@@ -1,5 +1,5 @@
 .alert-card {
-  padding: 3px 25px;
+  padding: 22px 25px 3px;
   border: solid 0.5px var(--border-color);
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
@@ -20,6 +20,9 @@
   position: relative;
 }
 
+.alert-id span {
+  white-space: nowrap;
+}
 
 .new-dot {
   position: absolute;
@@ -32,10 +35,10 @@
 }
 
 .severity {
+  border-bottom-left-radius: 11.25px;
   position: absolute;
-  top: 8px;
-  right: -3px;
-  border-radius: 11.25px;
+  top: 0;
+  right: -8px;
 }
 
 .reason {}

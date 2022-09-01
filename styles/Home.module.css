@@ -14,15 +14,19 @@
 
 .page-content {
   display: flex;
+  height: calc(100vh - 129px);
 }
 
 .alert-list {
   width: 300px;
   border-right: solid 1px var(--border-color);
+  max-height: calc(100vh - 129px);
 }
 
 .alert-list-container {
   padding: 15px;
+  max-height: calc(100vh - 264px);
+  overflow: auto;
 }
 
 .alert-detail {
