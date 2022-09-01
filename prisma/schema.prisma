@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGO_DB_URL")
+}
+
+model Sensor {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  name   String
+  alerts Alert[]
+}
+
+model Alert {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  severity  Severity
+  sensor    Sensor      @relation(fields: [sensorId], references: [id])
+  sensorId  String
+  timestamp DateTime
+  soundUrl  String
+  reason    AlertReason @relation(fields: [reasonId], references: [id])
+  reasonId  String
+  action    AlertAction @relation(fields: [actionId], references: [id])
+  actionId  String
+  comment   String
+}
+
+model AlertReason {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  reason String  @unique
+  alerts Alert[]
+}
+
+model AlertAction {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  action String  @unique
+  alerts Alert[]
+}
+
+enum Severity {
+  MILD
+  MODERATE
+  SEVERE
+}
