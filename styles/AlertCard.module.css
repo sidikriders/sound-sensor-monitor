@@ -1,0 +1,48 @@
+.alert-card {
+  padding: 3px 25px;
+  border: solid 0.5px var(--border-color);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.alert-card:hover,
+.alert-card.active {
+  border: solid 0.5px #00000000;
+  outline: solid 2px var(--primary-blue);
+}
+
+.alert-id {
+  font-size: 14px;
+  margin: 5px 0;
+  position: relative;
+}
+
+
+.new-dot {
+  position: absolute;
+  left: -15px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--primary-blue);
+}
+
+.severity {
+  position: absolute;
+  top: 8px;
+  right: -3px;
+  border-radius: 11.25px;
+}
+
+.reason {}
+
+.datetime {}
+
+.sensor-name {
+  margin: 5px 0;
+  color: var(--primary-blue)
+}

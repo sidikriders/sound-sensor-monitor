@@ -2,7 +2,29 @@
   background-color: #fff;
   box-shadow: 0px 3px 6px 0px #00000029;
   border-radius: 5px;
-  height: 100px;
   max-width: 1250px;
   margin: 0 auto;
+  border: solid 1px var(--border-color);
+}
+
+.sensor-selector {
+  padding: 5px 15px;
+  border-bottom: solid 1px var(--border-color);
+}
+
+.page-content {
+  display: flex;
+}
+
+.alert-list {
+  width: 300px;
+  border-right: solid 1px var(--border-color);
+}
+
+.alert-list-container {
+  padding: 15px;
+}
+
+.alert-detail {
+  width: calc(100% - 300px)
 }
