@@ -35,7 +35,7 @@ const AlertCard = (props: {
         {!al.viewed && <div className={styles["new-dot"]} />}
       </div>
       <b className={styles["reason"]}>
-        {al.reason?.reason || "Unknown Reason"}
+        {_.startCase((al.reason?.reason || "UNKNOWN REASON").toLowerCase())}
       </b>
       <p className={styles["datetime"]}>
         Detected at {moment(al.timestamp).format("YYYY-MM-DD HH:mm:ss")}
