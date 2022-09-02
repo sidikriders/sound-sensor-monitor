@@ -15,6 +15,7 @@
     "lodash": "^4.17.21",
     "next": "12.2.5",
     "react": "18.2.0",
+    "react-audio-player": "^0.17.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
@@ -22,6 +23,7 @@
     "@types/node": "18.7.14",
     "@types/react": "18.0.18",
     "@types/react-dom": "18.0.6",
+    "@types/wavesurfer.js": "^6.0.3",
     "eslint": "8.23.0",
     "eslint-config-next": "12.2.5",
     "prisma": "^4.3.1",
