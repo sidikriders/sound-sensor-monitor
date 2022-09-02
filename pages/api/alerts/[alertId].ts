@@ -14,6 +14,11 @@ export default async function handler(
         id: alertId,
       },
       data: req.body,
+      include: {
+        sensor: true,
+        reason: true,
+        action: true,
+      },
     });
 
     return res.send(updatedAlert);

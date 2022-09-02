@@ -165,7 +165,22 @@ const Home: NextPage = () => {
             />
           </div>
           <div className={styles["alert-detail"]}>
-            <AlertDetail selected={selectedAlert} />
+            <AlertDetail
+              selected={selectedAlert}
+              setLoading={(loLoading) => setLoading(loLoading)}
+              successUpdate={(newAlert) => {
+                setAlerts((alAlerts) => ({
+                  ...alAlerts,
+                  items: alAlerts.items.map((al) => {
+                    if (al.id === selectedAlert?.id) {
+                      return newAlert;
+                    }
+
+                    return al;
+                  }),
+                }));
+              }}
+            />
           </div>
         </div>
       </Spin>

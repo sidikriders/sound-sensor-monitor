@@ -44,3 +44,16 @@ p {
   background-color: var(--border-color);
   border-radius: 2.5px;
 }
+
+.ant-btn-primary {
+  background-color: var(--primary-blue);
+  color: #fff;
+}
+
+.ant-btn-primary span {
+  color: #fff;
+}
+
+.ant-btn-primary[disabled] span, .ant-btn-primary[disabled]:hover span, .ant-btn-primary[disabled]:focus span, .ant-btn-primary[disabled]:active span {
+  color: rgba(0, 0, 0, 0.25);
+}

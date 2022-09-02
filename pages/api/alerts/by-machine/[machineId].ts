@@ -43,7 +43,11 @@ export default async function handler(
       },
     },
     include: {
-      sensor: true,
+      sensor: {
+        include: {
+          machine: true,
+        },
+      },
       reason: true,
       action: true,
     },
