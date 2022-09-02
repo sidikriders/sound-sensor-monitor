@@ -1,20 +1,20 @@
 import { message, Select } from "antd";
 import { useEffect, useState } from "react";
 
-const SensorSelector = (props: {
+const MachineSelector = (props: {
   selected?: string;
   onChange: (sensorId: string) => void;
 }) => {
   const [loading, setLoading] = useState(false);
-  const [sensors, setSensors] = useState([]);
+  const [machines, setMachines] = useState([]);
 
-  const getSensors = async () => {
+  const getMachines = async () => {
     setLoading(true);
-    const resp = await fetch("/api/sensors");
+    const resp = await fetch("/api/machines");
     if (resp.ok) {
       const parsed = await resp.json();
 
-      setSensors(parsed);
+      setMachines(parsed);
     } else {
       message.error("Failed get sensor list");
     }
@@ -22,7 +22,7 @@ const SensorSelector = (props: {
   };
 
   useEffect(() => {
-    getSensors();
+    getMachines();
   }, []);
   return (
     <Select
@@ -33,7 +33,7 @@ const SensorSelector = (props: {
       allowClear={props.selected !== "All"}
     >
       <Select.Option value="All">All</Select.Option>
-      {sensors.map((sen: { id: string; name: string }) => (
+      {machines.map((sen: { id: string; name: string }) => (
         <Select.Option value={sen.id} key={sen.id}>
           {sen.name}
         </Select.Option>
@@ -42,4 +42,4 @@ const SensorSelector = (props: {
   );
 };
 
-export default SensorSelector;
+export default MachineSelector;
