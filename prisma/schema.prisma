@@ -10,10 +10,19 @@ datasource db {
   url      = env("MONGO_DB_URL")
 }
 
+model Machine {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  sensors Sensor[]
+}
+
 model Sensor {
-  id     String  @id @default(auto()) @map("_id") @db.ObjectId
-  name   String
-  alerts Alert[]
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  code      String  @unique
+  alerts    Alert[]
+  machine   Machine @relation(fields: [machineId], references: [id])
+  machineId String
 }
 
 model Alert {
