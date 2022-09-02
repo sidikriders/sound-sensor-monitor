@@ -9,7 +9,11 @@ const severityColor: any = {
   SEVERE: "red",
 };
 
-const AlertCard = (props: { alert: AlertResponse; active: boolean }) => {
+const AlertCard = (props: {
+  alert: AlertResponse;
+  active: boolean;
+  onClick?: () => void;
+}) => {
   const { alert: al } = props;
 
   return (
@@ -17,6 +21,7 @@ const AlertCard = (props: { alert: AlertResponse; active: boolean }) => {
       className={
         styles["alert-card"] + (props.active ? ` ${styles["active"]}` : "")
       }
+      onClick={() => !!props?.onClick && props?.onClick()}
     >
       <Tag
         className={styles["severity"]}
@@ -25,7 +30,7 @@ const AlertCard = (props: { alert: AlertResponse; active: boolean }) => {
         {al.severity}
       </Tag>
       <div className={styles["alert-id"]}>
-        <span>ID {al.id}</span>{" "}
+        <span>ID #{al.sensor?.code}</span>{" "}
         {!al.viewed && <div className={styles["new-dot"]} />}
       </div>
       <b className={styles["reason"]}>

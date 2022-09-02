@@ -29,6 +29,16 @@
   overflow: auto;
 }
 
+.alert-list-container::-webkit-scrollbar {
+  background: none;
+  width: 5px;
+}
+
+.alert-list-container::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 2.5px;
+}
+
 .alert-detail {
   width: calc(100% - 300px)
 }

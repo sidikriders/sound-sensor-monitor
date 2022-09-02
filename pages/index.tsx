@@ -24,6 +24,9 @@ const Home: NextPage = () => {
     pageSize: 10,
     total: 0,
   });
+  const [selectedAlert, setSelectedAlert] = useState<null | AlertResponse>(
+    null
+  );
   const newAlerts = 6;
 
   const getAlerts = async () => {
@@ -32,7 +35,7 @@ const Home: NextPage = () => {
     const page = String(router.query?.page || 1);
     const sensor = router.query?.sensorId;
     if (!!sensor) {
-      url = `/api/sensor-alerts/${sensor}`;
+      url = `/api/alerts/by-sensor/${sensor}`;
     }
 
     const resp = await fetch(url + `?page=${page}&pageSize=${10}`);
@@ -106,7 +109,11 @@ const Home: NextPage = () => {
                   <AlertCard
                     alert={al}
                     key={al.id}
-                    active={al.id === "00013211"}
+                    active={selectedAlert?.id === al.id}
+                    onClick={() => {
+                      console.log("clicked");
+                      setSelectedAlert(al);
+                    }}
                   />
                 );
               })}

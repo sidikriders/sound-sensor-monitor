@@ -1,5 +1,5 @@
 .alert-card {
-  padding: 22px 25px 3px;
+  padding: 3px 25px;
   border: solid 0.5px var(--border-color);
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
@@ -35,10 +35,14 @@
 }
 
 .severity {
-  border-bottom-left-radius: 11.25px;
   position: absolute;
-  top: 0;
-  right: -8px;
+  top: 7px;
+  right: 0px;  
+  font-size: 10px;
+  border-radius: 11px;
+  padding: 0 8px;
+  font-weight: 500;
+;
 }
 
 .reason {}
