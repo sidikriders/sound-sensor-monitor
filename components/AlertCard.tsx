@@ -1,5 +1,6 @@
 import { Tag } from "antd";
 import { AlertResponse } from "global";
+import _ from "lodash";
 import moment from "moment";
 import styles from "../styles/AlertCard.module.css";
 
@@ -27,7 +28,7 @@ const AlertCard = (props: {
         className={styles["severity"]}
         color={severityColor[String(al.severity)] || "black"}
       >
-        {al.severity}
+        {_.startCase(al.severity?.toLowerCase() || "")}
       </Tag>
       <div className={styles["alert-id"]}>
         <span>ID #{al.sensor?.code}</span>{" "}
@@ -37,7 +38,7 @@ const AlertCard = (props: {
         {al.reason?.reason || "Unknown Reason"}
       </b>
       <p className={styles["datetime"]}>
-        Detected at {moment.utc(al.timestamp).format("YYYY-MM-DD HH:mm:ss")}
+        Detected at {moment(al.timestamp).format("YYYY-MM-DD HH:mm:ss")}
       </p>
       <p className={styles["sensor-name"]}>{al.sensor?.name}</p>
     </div>
