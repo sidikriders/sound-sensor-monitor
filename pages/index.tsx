@@ -1,4 +1,4 @@
-import { Button, message, Pagination, Select, Spin, Tag } from "antd";
+import { Button, message, Pagination, Spin, Tag } from "antd";
 import { CaretLeftOutlined } from "@ant-design/icons";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -6,9 +6,10 @@ import { useEffect, useState } from "react";
 import MainHeader from "../components/Header";
 import styles from "../styles/Home.module.css";
 import AlertCard from "../components/AlertCard";
-import SensorSelector from "../components/SensorSelector";
+import MachineSelector from "../components/MachineSelector";
 import { useRouter } from "next/router";
 import { AlertResponse } from "global";
+import AlertDetail from "../components/AlertDetail";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -18,24 +19,25 @@ const Home: NextPage = () => {
     page: number;
     pageSize: number;
     total: number;
+    new: number;
   }>({
     items: [],
     page: 1,
     pageSize: 10,
     total: 0,
+    new: 0,
   });
   const [selectedAlert, setSelectedAlert] = useState<null | AlertResponse>(
     null
   );
-  const newAlerts = 6;
 
   const getAlerts = async () => {
     setLoading(true);
     let url = "/api/alerts";
     const page = String(router.query?.page || 1);
-    const sensor = router.query?.sensorId;
-    if (!!sensor) {
-      url = `/api/alerts/by-sensor/${sensor}`;
+    const machine = router.query?.machineId;
+    if (!!machine) {
+      url = `/api/alerts/by-machine/${machine}`;
     }
 
     const resp = await fetch(url + `?page=${page}&pageSize=${10}`);
@@ -48,9 +50,41 @@ const Home: NextPage = () => {
     setLoading(false);
   };
 
+  const viewAlert = async (alertId: string) => {
+    const resp = await fetch(`/api/alerts/${alertId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ viewed: true }),
+    });
+
+    if (resp.ok) {
+      setAlerts((als) => ({
+        ...als,
+        items: als.items.map((al) => {
+          if (al.id === alertId) {
+            return { ...al, viewed: true };
+          }
+
+          return al;
+        }),
+        new: als.new - 1,
+      }));
+    } else {
+      message.error("Failed update alert");
+    }
+  };
+
   useEffect(() => {
     getAlerts();
-  }, [router.query.sensorId, router.query.page]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [router.query.machineId, router.query.page]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (selectedAlert?.id && !selectedAlert?.viewed) {
+      viewAlert(selectedAlert?.id);
+    }
+  }, [selectedAlert?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={styles.container}>
@@ -64,8 +98,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles["sensor-selector"]}>
-        <SensorSelector
-          selected={String(router.query.sensorId || "All")}
+        <MachineSelector
+          selected={String(router.query.machineId || "All")}
           onChange={(val) => {
             if (!val || val === "All") {
               router.replace({
@@ -74,7 +108,7 @@ const Home: NextPage = () => {
             } else {
               router.replace({
                 pathname: "/",
-                query: { sensorId: val },
+                query: { machineId: val },
               });
             }
           }}
@@ -94,12 +128,12 @@ const Home: NextPage = () => {
             </div>
             <div className={styles["sensor-selector"]}>
               {alerts.total} Alerts{" "}
-              {!!newAlerts && (
+              {!!alerts.new && (
                 <Tag
                   color="var(--primary-blue)"
                   style={{ marginLeft: 15, borderRadius: 11.25 }}
                 >
-                  {newAlerts} New
+                  {alerts.new} New
                 </Tag>
               )}
             </div>
@@ -111,7 +145,6 @@ const Home: NextPage = () => {
                     key={al.id}
                     active={selectedAlert?.id === al.id}
                     onClick={() => {
-                      console.log("clicked");
                       setSelectedAlert(al);
                     }}
                   />
@@ -124,14 +157,16 @@ const Home: NextPage = () => {
               onChange={(page) => {
                 router.replace({
                   pathname: "/",
-                  query: { page, sensorId: router.query.sensorId },
+                  query: { page, machineId: router.query.machineId },
                 });
               }}
               total={alerts.total}
               style={{ textAlign: "right", margin: 10 }}
             />
           </div>
-          <div className={styles["alert-detail"]}></div>
+          <div className={styles["alert-detail"]}>
+            <AlertDetail selected={selectedAlert} />
+          </div>
         </div>
       </Spin>
     </div>

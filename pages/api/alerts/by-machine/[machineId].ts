@@ -11,25 +11,35 @@ export default async function handler(
   const pageSize = Number(req.query.pageSize) || 10;
   const skip = (page - 1) * pageSize;
 
+  // should also put machineId in alert schema
+  const sensors = await prisma.sensor.findMany({
+    where: {
+      machineId,
+    },
+    select: {
+      id: true,
+    },
+  });
+
   const totalAlerts = await prisma?.alert.count({
     where: {
-      sensor: {
-        machineId: machineId,
+      sensorId: {
+        in: sensors.map((sen) => sen.id),
       },
     },
   });
   const totalNewAlerts = await prisma?.alert.count({
     where: {
-      sensor: {
-        machineId: machineId,
+      sensorId: {
+        in: sensors.map((sen) => sen.id),
       },
       viewed: false,
     },
   });
   const alerts = await prisma?.alert.findMany({
     where: {
-      sensor: {
-        machineId: machineId,
+      sensorId: {
+        in: sensors.map((sen) => sen.id),
       },
     },
     include: {
