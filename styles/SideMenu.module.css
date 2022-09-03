@@ -1,0 +1,89 @@
+.container {
+  width: 100%;
+  height: calc(100vh - 53px);
+  position: fixed;
+  left: -100%;
+  top: 53px;
+  z-index: 2;
+  transition: left .3s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+
+.container.active {
+  left: 0;
+}
+
+.menuContainer {
+  width: calc(100% - 60px);
+  min-width: 300px;
+  height: 100%;
+  background-color: #fff;
+  position: relative;
+  right: 0px;
+  transition: all .3s cubic-bezier(0.215, 0.610, 0.355, 1);
+  z-index: 2;
+}
+
+.container.active .menuContainer {
+  right: 0px;
+}
+
+.shadow {
+  width: 100%;
+  height: calc(100vh - 53px);
+  position: fixed;
+  left: 0;
+  top: 53px;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.shadow:global {
+  animation: fadeIn .3s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+
+.menuLinkContainer {
+  padding: 0;
+  margin: 0;
+}
+
+.menuLink {
+  height: 53px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  transition-property: background-color, border;
+  transition-duration: 0.15s; 
+  transition-timing-function: ease-out; 
+}
+
+.menuLink {
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.menuLink:hover,
+.menuLink.active {
+  border-right: solid 3px var(--primary-blue);
+}
+
+.menuLink:hover {
+  cursor: pointer;
+  background: var(--light-blue);
+}
+
+.iconLinks {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 53px;
+  border-top: solid 1px var(--border-color);
+  padding: 0 15px;
+}
+
+@media only screen and (max-width: 300px) {
+  .menuContainer {
+    min-width: unset;
+    width: 100%;
+  }
+}

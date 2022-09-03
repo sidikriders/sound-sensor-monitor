@@ -96,6 +96,7 @@
 
 .menu-icon-list li .icon-container {
   position: relative;
+  height: 20px;
 }
 
 .menu-icon-list li .counter {
@@ -112,4 +113,20 @@
   text-align: center;
   line-height: 15px;
   font-weight: 500;
+}
+
+.burgerIcon {
+  display: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 625px) {
+  .content-container > div > *:not(.mainLogo) {
+    display: none;
+  }
+
+  .content-container > div .burgerIcon {
+    display: inline;
+  }
 }
